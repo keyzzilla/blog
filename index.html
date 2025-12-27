@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyzzilla's Void</title>
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-heavy: rgba(255, 255, 255, 0.12);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .profile-container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 60px auto 40px auto;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            filter: grayscale(100%);
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+            transition: filter 0.6s ease, transform 0.6s ease, border-color 0.6s ease;
+            cursor: pointer;
+        }
+
+        .profile-image:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-text {
+            flex-grow: 1;
+        }
+
+        .profile-text h1 {
+            font-size: 3rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 200;
+            margin-bottom: 15px;
+        }
+
+        .profile-text p {
+            color: #888;
+            line-height: 1.6;
+            max-width: 700px;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+            .profile-text h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem 4rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .card:hover {
+            background: var(--glass-heavy);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .card p {
+            color: #777;
+            line-height: 1.6;
+            font-size: 0.85rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            padding: 3rem;
+            max-width: 700px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #444;
+        }
+
+        .close-btn:hover { color: var(--white); }
+        .modal-content h1 { margin-bottom: 2rem; letter-spacing: 4px; }
+        .modal-content p { color: #ccc; line-height: 1.8; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <canvas class="particles" id="particles"></canvas>
+
+    <header class="profile-container">
+        <img src="https://i.ibb.co/VYwwXnCK/Whats-App-Image-2025-12-22-at-00-22-53.jpg" alt="Profile" class="profile-image">
+        <div class="profile-text">
+            <h1>The Void.</h1>
+            <p>Welcome to the digital archive of Keyzzilla. Here you will see blogs on updates on my life, my career, website, social media, and Me. Make sure to stay updated with the latest news on Keyzzilla.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="card" onclick="openModal('The site is back up...', 'After many struggles with GitHub and projecting the webpage, with a little bit of help and tips, We finally got the main page (as well as this) to project on your screen.')">
+            <h2>The site is back up...</h2>
+            <p>Friday, December 19th. 2025.</p>
+        </div>
+
+        <div class="card" onclick="openModal('Team Monster is back up!', 'After 3 months of permanent closure (or so we thought), we are back with a rerelease and we are better than before! You can check out our website once it is complete!')">
+            <h2>Team Monster is back!</h2>
+            <p>Wednesday, December 24th. 2025.</p>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h1 id="modalTitle">Title</h1>
+            <p id="modalBody">Body text goes here...</p>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particlesArray = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.speedY = Math.random() * 0.3 - 0.15;
+            }
+            update() {
+                this.x += this.speedX; 
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.beginPath(); 
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); 
+                ctx.fill();
+            }
+        }
+
+        function init() { for (let i = 0; i < 120; i++) particlesArray.push(new Particle()); }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        init(); 
+        animate();
+
+        window.addEventListener('resize', () => { 
+            canvas.width = window.innerWidth; 
+            canvas.height = window.innerHeight; 
+        });
+
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+
+        function openModal(title, text) {
+            modalTitle.innerText = title;
+            modalBody.innerText = text;
+            modalOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>
